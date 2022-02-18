@@ -106,12 +106,12 @@
 				66793EC027C5FCEB00D12DC4 /* AppDelegate.swift */,
 				66793EC227C5FCEB00D12DC4 /* SceneDelegate.swift */,
 				66793EF027C6009D00D12DC4 /* View+Extension.swift */,
+				66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */,
 				66793EC427C5FCEB00D12DC4 /* ContentView.swift */,
 				66793EC627C5FCEC00D12DC4 /* Assets.xcassets */,
 				66793ECB27C5FCEC00D12DC4 /* LaunchScreen.storyboard */,
 				66793ECE27C5FCEC00D12DC4 /* Info.plist */,
 				66793EC827C5FCEC00D12DC4 /* Preview Content */,
-				66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */,
 			);
 			path = dialog;
 			sourceTree = "<group>";

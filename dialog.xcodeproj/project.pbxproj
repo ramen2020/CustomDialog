@@ -17,6 +17,7 @@
 		66793EE327C5FCEC00D12DC4 /* dialogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EE227C5FCEC00D12DC4 /* dialogUITests.swift */; };
 		66793EF127C6009D00D12DC4 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF027C6009D00D12DC4 /* View+Extension.swift */; };
 		66793EF327C600FF00D12DC4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */; };
+		66793EF527C6050500D12DC4 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF427C6050500D12DC4 /* ModalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		66793EE427C5FCEC00D12DC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66793EF027C6009D00D12DC4 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
+		66793EF427C6050500D12DC4 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				66793EF027C6009D00D12DC4 /* View+Extension.swift */,
 				66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */,
 				66793EC427C5FCEB00D12DC4 /* ContentView.swift */,
+				66793EF427C6050500D12DC4 /* ModalView.swift */,
 				66793EC627C5FCEC00D12DC4 /* Assets.xcassets */,
 				66793ECB27C5FCEC00D12DC4 /* LaunchScreen.storyboard */,
 				66793ECE27C5FCEC00D12DC4 /* Info.plist */,
@@ -272,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66793EF527C6050500D12DC4 /* ModalView.swift in Sources */,
 				66793EC127C5FCEB00D12DC4 /* AppDelegate.swift in Sources */,
 				66793EC327C5FCEB00D12DC4 /* SceneDelegate.swift in Sources */,
 				66793EF127C6009D00D12DC4 /* View+Extension.swift in Sources */,

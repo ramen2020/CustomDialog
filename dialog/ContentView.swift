@@ -51,7 +51,7 @@ struct ModalView: View {
         .foregroundColor(Color.white)
         .font(.system(size: 18, weight: .semibold))
         .frame(width: 300, height: 500)
-        .background(Color.red)
+        .background(Color.white)
     }
 }
 

@@ -18,6 +18,7 @@
 		66793EF127C6009D00D12DC4 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF027C6009D00D12DC4 /* View+Extension.swift */; };
 		66793EF327C600FF00D12DC4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */; };
 		66793EF527C6050500D12DC4 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF427C6050500D12DC4 /* ModalView.swift */; };
+		66793EF727C609F100D12DC4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 66793EF627C609F100D12DC4 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		66793EF027C6009D00D12DC4 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		66793EF427C6050500D12DC4 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
+		66793EF627C609F100D12DC4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				66793EC627C5FCEC00D12DC4 /* Assets.xcassets */,
 				66793ECB27C5FCEC00D12DC4 /* LaunchScreen.storyboard */,
 				66793ECE27C5FCEC00D12DC4 /* Info.plist */,
+				66793EF627C609F100D12DC4 /* README.md */,
 				66793EC827C5FCEC00D12DC4 /* Preview Content */,
 			);
 			path = dialog;
@@ -250,6 +253,7 @@
 			files = (
 				66793ECD27C5FCEC00D12DC4 /* LaunchScreen.storyboard in Resources */,
 				66793ECA27C5FCEC00D12DC4 /* Preview Assets.xcassets in Resources */,
+				66793EF727C609F100D12DC4 /* README.md in Resources */,
 				66793EC727C5FCEC00D12DC4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

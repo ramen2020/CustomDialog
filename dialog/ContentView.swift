@@ -10,19 +10,24 @@ import SwiftUI
 struct ContentView: View {
     
     var body: some View {
-        NavigationView {
-            TabView {
+        TabView {
+            NavigationView {
                 FirstPage()
-                    .tabItem {
-                        Image(systemName: "1.circle.fill")
-                    }
-                SecondPage()
-                    .tabItem {
-                        Image(systemName: "2.circle.fill")
-                    }
+                    .navigationBarTitle("Dialog / PopUp")
             }
-            .navigationBarTitle("Dialog / PopUp")
+            .tabItem {
+                Image(systemName: "1.circle.fill")
+            }
+            
+            NavigationView {
+                SecondPage()
+                    .navigationBarTitle("Half Modal")
+            }
+            .tabItem {
+                Image(systemName: "2.circle.fill")
+            }
         }
+        
     }
 }
 
@@ -82,7 +87,8 @@ struct SecondPage: View {
             .font(.system(size: 18, weight: .semibold))
             .frame(height: 500)
             .frame(maxWidth: .infinity)
-            .background(Color.white)        }
+            .background(Color.white)
+        }
     }
 }
 

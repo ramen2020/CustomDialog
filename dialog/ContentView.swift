@@ -68,9 +68,21 @@ struct SecondPage: View {
             }
         }
         .background(Color.white)
-        .fullOverFullScreenView(isPresented: $isPresented){
-            ModalView(isPresented: $isPresented)
-        }
+        .halfModalView(isPresented: $isPresented){
+            Button (action: {
+                isPresented = false
+            }) {
+                Text("close")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 18, weight: .semibold))
+                    .frame(width: 250, height: 50)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }        .foregroundColor(Color.white)
+            .font(.system(size: 18, weight: .semibold))
+            .frame(height: 500)
+            .frame(maxWidth: .infinity)
+            .background(Color.white)        }
     }
 }
 

@@ -1,8 +1,10 @@
 #  Dialog / PopUp
 A project that easily invokes commonly used dialogs.
-よく使うダイアログを簡単に呼び出せるようにしたプロジェクト。
+ダイアログを簡単に呼び出せるようにしたプロジェクト。
 
-![Dialog / PopUp](https://user-images.githubusercontent.com/62822536/155272917-abf91051-bfb4-42af-8b0d-9ae46c58cb94.gif)
+|Dialog/PopUp|Half Modal|
+|--|--|
+|![Dialog / PopUp](https://user-images.githubusercontent.com/62822536/155285120-b390d129-dd2a-49a6-ae66-27469be34c8b.gif)|![Half Modal](https://user-images.githubusercontent.com/62822536/155285140-8d370bf8-2344-41b7-8750-430f826f02bd.gif)|
 
 ## Overview
 
@@ -25,6 +27,21 @@ SwiftUIには以下の問題がありました。
 ## Environment
 SwiftUI
 iOS14~
+
+## How to use
+Just add a modifier.
+
+```
+    .fullOverFullScreenView(isPresented: $isPresented){
+        //
+    }
+```
+
+```
+    .halfModalView(isPresented: $isPresented){
+        //
+    }
+```
 
 ## example
 ```

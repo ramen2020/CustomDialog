@@ -1,5 +1,5 @@
 #  Dialog / PopUp
-A project that easily invokes commonly used dialogs.
+A project that easily invokes commonly used dialogs.<br>
 ダイアログを簡単に呼び出せるようにしたプロジェクト。
 
 |Dialog/PopUp|Half Modal|

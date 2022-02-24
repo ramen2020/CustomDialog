@@ -8,9 +8,7 @@
 import Foundation
 import SwiftUI
 
-//MARK: フルスクリーン
 extension View {
-    // 透過されて表示するフルスクリーン
     public func fullOverFullScreenView<Content>(
         isPresented: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content

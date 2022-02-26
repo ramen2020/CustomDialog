@@ -98,12 +98,12 @@ struct SecondPage: View {
     }
 }
 
-struct NaoPopUpModal<PopupContent: View>: View {
+struct NaoPopUpModal<NaoPopupContent: View>: View {
     
     @State var modalHeight: CGFloat = UIScreen.main.bounds.height
     @Environment(\.naoModal) var isPresented
 
-    var view: () -> PopupContent
+    var view: () -> NaoPopupContent
 
     var body: some View {
         Group {}
@@ -131,13 +131,13 @@ struct NaoPopUpModal<PopupContent: View>: View {
     }
 }
 
-struct NaoHalfModal<PopupContent: View>: View {
+struct NaoHalfModal<NaoPopupContent: View>: View {
 
     @Environment(\.naoModal) var isPresented
         
     @State var modalHeight: CGFloat = UIScreen.main.bounds.height
     
-    var view: () -> PopupContent
+    var view: () -> NaoPopupContent
     
     public var defaultAnimation: Animation = .interpolatingSpring(
         stiffness: 400.0,

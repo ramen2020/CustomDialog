@@ -13,7 +13,7 @@ struct ContentView: View {
         TabView {
             NavigationView {
                 FirstPage()
-                    .navigationBarTitle("Dialog / PopUp")
+                    .navigationBarTitle("Half Modal")
             }
             .tabItem {
                 Image(systemName: "1.circle.fill")
@@ -21,7 +21,7 @@ struct ContentView: View {
             
             NavigationView {
                 SecondPage()
-                    .navigationBarTitle("Half Modal")
+                    .navigationBarTitle("Dialog / PopUp")
             }
             .tabItem {
                 Image(systemName: "2.circle.fill")
@@ -36,31 +36,6 @@ struct FirstPage: View {
     @State var isPresented: Bool = false
     
     var body: some View {
-        VStack {
-            Button (action: {
-                isPresented = true
-            }) {
-                Text("open")
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 18, weight: .semibold))
-                    .frame(width: 250, height: 50)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-        }
-        .background(Color.white)
-        .fullOverFullScreenView(isPresented: $isPresented){
-            ModalView(isPresented: $isPresented)
-        }
-    }
-}
-
-struct SecondPage: View {
-    
-    @State var isPresented: Bool = false
-    @State var isPresented2: Bool = false
-    
-    var body: some View {
         VStack(spacing: 30) {
             Button (action: {
                 self.isPresented = true
@@ -69,21 +44,9 @@ struct SecondPage: View {
                     .foregroundColor(Color.white)
                     .font(.system(size: 18, weight: .semibold))
                     .frame(width: 250, height: 50)
-                    .background(Color.blue)
+                    .background(Color.red)
                     .cornerRadius(10)
             }
-            
-            Button (action: {
-                self.isPresented2 = true
-            }) {
-                Text("Dialog")
-                    .foregroundColor(Color.white)
-                    .font(.system(size: 18, weight: .semibold))
-                    .frame(width: 250, height: 50)
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-
         }
         .naoPop(isPresented: $isPresented) {
             NaoHalfModal(onDismiss: {
@@ -92,14 +55,68 @@ struct SecondPage: View {
                 ItemContent()
             }
         }
-        .naoPop(isPresented: $isPresented2) {
-            NaoPopUpModal(tapOutsideDismiss: false) {
+    }
+}
+
+// MARK: - old
+//struct FirstPage: View {
+//
+//    @State var isPresented: Bool = false
+//
+//    var body: some View {
+//        VStack {
+//            Button (action: {
+//                isPresented = true
+//            }) {
+//                Text("open")
+//                    .foregroundColor(Color.white)
+//                    .font(.system(size: 18, weight: .semibold))
+//                    .frame(width: 250, height: 50)
+//                    .background(Color.blue)
+//                    .cornerRadius(10)
+//            }
+//        }
+//        .background(Color.white)
+//        .fullOverFullScreenView(isPresented: $isPresented){
+//            ModalView(isPresented: $isPresented)
+//        }
+//    }
+//}
+
+struct SecondPage: View {
+    
+    @State var isPresented: Bool = false
+    
+    var body: some View {
+        VStack {
+            Button (action: {
+                self.isPresented = true
+            }) {
+                Text("Dialog")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 18, weight: .semibold))
+                    .frame(width: 250, height: 50)
+                    .background(Color.purple)
+                    .cornerRadius(10)
+            }
+
+        }
+        .naoPop(isPresented: $isPresented) {
+            NaoPopUpModal(
+                tapOutsideDismiss: false,
+                presentedAnimation: .easeOut(duration: 0.2),
+                dismissAnimation: .easeIn(duration: 0.2),
+                onDismiss: {
+                    print("dismiss PopUp !!!")
+                }
+            ) {
                 ItemContent()
             }
         }
     }
 }
 
+/// PopUp / Dialog
 struct NaoPopUpModal<NaoPopupContent: View>: View {
 
     // MARK: - settings propaty
@@ -166,6 +183,7 @@ struct NaoPopUpModal<NaoPopupContent: View>: View {
     }
 }
 
+/// Half Modal
 struct NaoHalfModal<NaoPopupContent: View>: View {
     
     // MARK: - settings propaty

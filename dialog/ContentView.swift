@@ -100,7 +100,7 @@ struct SecondPage: View {
 
 struct PopUpModal<PopupContent: View>: View {
     
-    @State var ok: Bool = false
+    @State var modalHeight: CGFloat = UIScreen.main.bounds.height
     @Environment(\.modal) var isPresented
 
     var view: () -> PopupContent
@@ -112,32 +112,29 @@ struct PopUpModal<PopupContent: View>: View {
             .onReceive(ModalNotification.modalDidPresentedSubject) { _ in
                 DispatchQueue.main.async {
                     withAnimation(.easeOut(duration: 0.2)) {
-                        ok = true
+                        modalHeight = 0
                     }
                 }
             }
             .onReceive(ModalNotification.modalDidDismissedSubject) { _ in
                 DispatchQueue.main.async {
                     withAnimation(.easeIn(duration: 0.2)) {
-                        ok = false
+                        modalHeight = UIScreen.main.bounds.height
                     }
                 }
             }
             .contentShape(Rectangle())
             .onTapGesture {
-                print("タップ")
                 isPresented.wrappedValue = false
             }
-            .overlay(self.view().offset(y: ok ? 0 : UIScreen.main.bounds.height))
+            .overlay(self.view().offset(y: modalHeight))
     }
 }
 
 struct HalfModal<PopupContent: View>: View {
 
     @Environment(\.modal) var isPresented
-    
-    @State var ok: Bool = false
-    
+        
     @State var modalHeight: CGFloat = UIScreen.main.bounds.height
     
     var view: () -> PopupContent

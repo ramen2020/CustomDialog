@@ -85,23 +85,23 @@ struct SecondPage: View {
             }
 
         }
-        .present(isPresented: $isPresented) {
-            HalfModal {
+        .naoPop(isPresented: $isPresented) {
+            NaoHalfModal {
                 ItemContent()
             }
         }
-        .present(isPresented: $isPresented2) {
-            PopUpModal {
+        .naoPop(isPresented: $isPresented2) {
+            NaoPopUpModal {
                 ItemContent()
             }
         }
     }
 }
 
-struct PopUpModal<PopupContent: View>: View {
+struct NaoPopUpModal<PopupContent: View>: View {
     
     @State var modalHeight: CGFloat = UIScreen.main.bounds.height
-    @Environment(\.modal) var isPresented
+    @Environment(\.naoModal) var isPresented
 
     var view: () -> PopupContent
 
@@ -109,14 +109,14 @@ struct PopUpModal<PopupContent: View>: View {
         Group {}
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea(edges: .all)
-            .onReceive(ModalNotification.modalDidPresentedSubject) { _ in
+            .onReceive(NaoModalNotification.modalDidPresentedSubject) { _ in
                 DispatchQueue.main.async {
                     withAnimation(.easeOut(duration: 0.2)) {
                         modalHeight = 0
                     }
                 }
             }
-            .onReceive(ModalNotification.modalDidDismissedSubject) { _ in
+            .onReceive(NaoModalNotification.modalDidDismissedSubject) { _ in
                 DispatchQueue.main.async {
                     withAnimation(.easeIn(duration: 0.2)) {
                         modalHeight = UIScreen.main.bounds.height
@@ -131,9 +131,9 @@ struct PopUpModal<PopupContent: View>: View {
     }
 }
 
-struct HalfModal<PopupContent: View>: View {
+struct NaoHalfModal<PopupContent: View>: View {
 
-    @Environment(\.modal) var isPresented
+    @Environment(\.naoModal) var isPresented
         
     @State var modalHeight: CGFloat = UIScreen.main.bounds.height
     
@@ -190,14 +190,14 @@ struct HalfModal<PopupContent: View>: View {
             .offset(y: modalHeight)
         }
         .ignoresSafeArea(edges: .all)
-        .onReceive(ModalNotification.modalDidPresentedSubject) { _ in
+        .onReceive(NaoModalNotification.modalDidPresentedSubject) { _ in
             DispatchQueue.main.async {
                 withAnimation(.easeOut(duration: 0.2)) {
                     modalHeight = 0
                 }
             }
         }
-        .onReceive(ModalNotification.modalDidDismissedSubject) { _ in
+        .onReceive(NaoModalNotification.modalDidDismissedSubject) { _ in
             DispatchQueue.main.async {
                 withAnimation(.easeIn(duration: 0.2)) {
                     modalHeight = UIScreen.main.bounds.height
@@ -209,7 +209,7 @@ struct HalfModal<PopupContent: View>: View {
 
 struct ItemContent: View {
 
-    @Environment(\.modal) var isPresented
+    @Environment(\.naoModal) var isPresented
 
     var body: some View {
         VStack {
@@ -230,13 +230,10 @@ struct ItemContent: View {
     }
 }
 
-
-import SwiftUI
-
 extension View {
-    func present<Content: View>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View {
+    func naoPop<Content: View>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View {
         self.overlay(
-            Modal(isPresented: isPresented, content: content)
+            NaoModal(isPresented: isPresented, content: content)
                 .frame(width: 0, height: 0)
         )
     }
@@ -247,7 +244,7 @@ private struct ModalEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var modal: Binding<Bool> {
+    var naoModal: Binding<Bool> {
         get {
             return self[ModalEnvironmentKey.self]
         }
@@ -257,34 +254,34 @@ extension EnvironmentValues {
     }
 }
 
-struct NotificationConst {
+struct NaoNotificationConst {
     static let MODAL_PRESENTED: Notification.Name = Notification.Name("modalDidPresented")
     static let MODAL_DISMISSED: Notification.Name = Notification.Name("modalDidDismissed")
 }
 
-struct ModalNotification {
+struct NaoModalNotification {
     static var modalDidPresentedSubject: NotificationCenter.Publisher {
-        NotificationCenter.default.publisher(for: NotificationConst.MODAL_PRESENTED)
+        NotificationCenter.default.publisher(for: NaoNotificationConst.MODAL_PRESENTED)
     }
 
     static func notifyModalDidPresented() {
         NotificationCenter.default
-            .post(Notification(name: NotificationConst.MODAL_PRESENTED))
+            .post(Notification(name: NaoNotificationConst.MODAL_PRESENTED))
     }
 
     static var modalDidDismissedSubject: NotificationCenter.Publisher {
-        NotificationCenter.default.publisher(for: NotificationConst.MODAL_DISMISSED)
+        NotificationCenter.default.publisher(for: NaoNotificationConst.MODAL_DISMISSED)
     }
 
     static func notifyModalDidDismissed() {
         NotificationCenter.default
-            .post(Notification(name: NotificationConst.MODAL_DISMISSED))
+            .post(Notification(name: NaoNotificationConst.MODAL_DISMISSED))
     }
 }
 
 
-private struct Modal<Content: View>: UIViewControllerRepresentable {
-    typealias Context = UIViewControllerRepresentableContext<Modal>
+private struct NaoModal<Content: View>: UIViewControllerRepresentable {
+    typealias Context = UIViewControllerRepresentableContext<NaoModal>
 
     @Binding var isPresented: Bool
 
@@ -298,7 +295,7 @@ private struct Modal<Content: View>: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         if self.isPresented {
             let content = self.content()
-                .environment(\.modal, self.$isPresented)
+                .environment(\.naoModal, self.$isPresented)
 
             let host = UIHostingController(rootView: content)
             host.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
@@ -307,11 +304,11 @@ private struct Modal<Content: View>: UIViewControllerRepresentable {
             DispatchQueue.main.async {
                 uiViewController.modalPresentationStyle = .overCurrentContext
                 uiViewController.present(host, animated: false, completion: {
-                    ModalNotification.notifyModalDidPresented()
+                    NaoModalNotification.notifyModalDidPresented()
                 })
             }
         } else {
-            ModalNotification.notifyModalDidDismissed()
+            NaoModalNotification.notifyModalDidDismissed()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 uiViewController.presentedViewController?.dismiss(animated: false, completion: nil)

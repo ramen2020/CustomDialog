@@ -139,7 +139,9 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
     
     /// Modal background color
     var modalBackground: Color
-     
+    
+    var cornerRadius: CGFloat
+    
     /// Tap the outer frame to close it.
     var tapOutsideDismiss: Bool
     
@@ -152,13 +154,14 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
     /// Animation when closing modal
     var dismissAnimation: Animation
     
-    /// Action when closed
+    /// Action when closed modal
     var onDismiss: (() -> Void)?
     
     var view: () -> NaoPopupContent
     
     init (
         modalBackground: Color = Color.white,
+        cornerRadius: CGFloat = 10,
         tapOutsideDismiss: Bool = true,
         dragDismiss: Bool = true,
         presentedAnimation: Animation = .easeOut(duration: 0.2),
@@ -167,6 +170,7 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
         view: @escaping () -> NaoPopupContent
     ){
         self.modalBackground = modalBackground
+        self.cornerRadius = cornerRadius
         self.tapOutsideDismiss = tapOutsideDismiss
         self.dragDismiss = dragDismiss
         self.presentedAnimation = presentedAnimation
@@ -231,6 +235,7 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
             }
             .frame(maxWidth: .infinity)
             .background(modalBackground)
+            .cornerRadius(cornerRadius)
             .offset(y: modalHeight)
         }
         .ignoresSafeArea(edges: .all)

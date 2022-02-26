@@ -1,4 +1,4 @@
-#  Dialog / PopUp
+#  (Beta version) Dialog / PopUp 
 A project that easily invokes commonly used dialogs.<br>
 ダイアログを簡単に呼び出せるようにしたプロジェクト。
 

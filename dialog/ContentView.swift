@@ -146,6 +146,12 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
     /// Can be closed by dragging.
     var dragDismiss: Bool
     
+    /// Animation when opening modal
+    var presentedAnimation: Animation
+    
+    /// Animation when closing modal
+    var dismissAnimation: Animation
+    
     /// Action when closed
     var onDismiss: (() -> Void)?
     
@@ -155,12 +161,16 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
         modalBackground: Color = Color.white,
         tapOutsideDismiss: Bool = true,
         dragDismiss: Bool = true,
+        presentedAnimation: Animation = .easeOut(duration: 0.2),
+        dismissAnimation: Animation = .easeIn(duration: 0.2),
         onDismiss: (() -> Void)? = nil,
         view: @escaping () -> NaoPopupContent
     ){
         self.modalBackground = modalBackground
         self.tapOutsideDismiss = tapOutsideDismiss
         self.dragDismiss = dragDismiss
+        self.presentedAnimation = presentedAnimation
+        self.dismissAnimation = dismissAnimation
         self.onDismiss = onDismiss
         self.view = view
     }
@@ -226,14 +236,14 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
         .ignoresSafeArea(edges: .all)
         .onReceive(NaoModalNotification.modalDidPresentedSubject) { _ in
             DispatchQueue.main.async {
-                withAnimation(.easeOut(duration: 0.2)) {
+                withAnimation(presentedAnimation) {
                     modalHeight = 0
                 }
             }
         }
         .onReceive(NaoModalNotification.modalDidDismissedSubject) { _ in
             DispatchQueue.main.async {
-                withAnimation(.easeIn(duration: 0.2)) {
+                withAnimation(dismissAnimation) {
                     modalHeight = UIScreen.main.bounds.height
                 }
             }

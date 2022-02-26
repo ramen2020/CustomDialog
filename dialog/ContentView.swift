@@ -86,7 +86,9 @@ struct SecondPage: View {
 
         }
         .naoPop(isPresented: $isPresented) {
-            NaoHalfModal {
+            NaoHalfModal(modalBackground: Color.white, tapOutsideDismiss: false, dragDismiss: false, onDismiss: {
+                //
+            }) {
                 ItemContent()
             }
         }
@@ -132,24 +134,52 @@ struct NaoPopUpModal<NaoPopupContent: View>: View {
 }
 
 struct NaoHalfModal<NaoPopupContent: View>: View {
-
-    @Environment(\.naoModal) var isPresented
-        
-    @State var modalHeight: CGFloat = UIScreen.main.bounds.height
+    
+    // MARK: - settings propaty
+    
+    /// Modal background color
+    var modalBackground: Color
+     
+    /// Tap the outer frame to close it.
+    var tapOutsideDismiss: Bool
+    
+    /// Can be closed by dragging.
+    var dragDismiss: Bool
+    
+    /// Action when closed
+    var onDismiss: (() -> Void)?
     
     var view: () -> NaoPopupContent
     
-    public var defaultAnimation: Animation = .interpolatingSpring(
+    init (
+        modalBackground: Color = Color.white,
+        tapOutsideDismiss: Bool = true,
+        dragDismiss: Bool = true,
+        onDismiss: (() -> Void)? = nil,
+        view: @escaping () -> NaoPopupContent
+    ){
+        self.modalBackground = modalBackground
+        self.tapOutsideDismiss = tapOutsideDismiss
+        self.dragDismiss = dragDismiss
+        self.onDismiss = onDismiss
+        self.view = view
+    }
+    
+    // MARK: - private propaty
+    @Environment(\.naoModal) private var isPresented
+    @State private var modalHeight: CGFloat = UIScreen.main.bounds.height
+    
+    private var defaultAnimation: Animation = .interpolatingSpring(
         stiffness: 400.0,
         damping: 25.0,
         initialVelocity: 5.0
     )
     
-    func onDragChanged(drag: DragGesture.Value) {
+    private func onDragChanged(drag: DragGesture.Value) {
         let translationHeight = drag.translation.height
         let firstPosition = CGFloat(0)
 
-        if translationHeight > firstPosition {
+        if dragDismiss && translationHeight > firstPosition {
             withAnimation(defaultAnimation) {
                 modalHeight = drag.translation.height
             }
@@ -159,12 +189,14 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
     private func onDragEnded(drag: DragGesture.Value) {
         let translationHeight = drag.translation.height
 
-        if 110 > translationHeight {
-            withAnimation(defaultAnimation) {
-                modalHeight = 0
+        if dragDismiss {
+            if 110 > translationHeight {
+                withAnimation(defaultAnimation) {
+                    modalHeight = 0
+                }
+            } else {
+                self.isPresented.wrappedValue = false
             }
-        } else {
-            self.isPresented.wrappedValue = false
         }
     }
 
@@ -174,7 +206,9 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
                 .frame(maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    isPresented.wrappedValue = false
+                    if tapOutsideDismiss {
+                        isPresented.wrappedValue = false
+                    }
                 }
             
             VStack {
@@ -186,7 +220,7 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
                     )
             }
             .frame(maxWidth: .infinity)
-            .background(Color.white)
+            .background(modalBackground)
             .offset(y: modalHeight)
         }
         .ignoresSafeArea(edges: .all)
@@ -203,6 +237,8 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
                     modalHeight = UIScreen.main.bounds.height
                 }
             }
+            guard let onDismiss = onDismiss else {return}
+            onDismiss()
         }
     }
 }

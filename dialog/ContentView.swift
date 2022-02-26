@@ -135,9 +135,41 @@ struct PopUpModal<PopupContent: View>: View {
 struct HalfModal<PopupContent: View>: View {
 
     @Environment(\.modal) var isPresented
+    
     @State var ok: Bool = false
     
+    @State var modalHeight: CGFloat = UIScreen.main.bounds.height
+    
     var view: () -> PopupContent
+    
+    public var defaultAnimation: Animation = .interpolatingSpring(
+        stiffness: 400.0,
+        damping: 25.0,
+        initialVelocity: 5.0
+    )
+    
+    func onDragChanged(drag: DragGesture.Value) {
+        let translationHeight = drag.translation.height
+        let firstPosition = CGFloat(0)
+
+        if translationHeight > firstPosition {
+            withAnimation(defaultAnimation) {
+                modalHeight = drag.translation.height
+            }
+        }
+    }
+    
+    private func onDragEnded(drag: DragGesture.Value) {
+        let translationHeight = drag.translation.height
+
+        if 110 > translationHeight {
+            withAnimation(defaultAnimation) {
+                modalHeight = 0
+            }
+        } else {
+            self.isPresented.wrappedValue = false
+        }
+    }
 
     var body: some View {
         VStack {
@@ -145,29 +177,33 @@ struct HalfModal<PopupContent: View>: View {
                 .frame(maxHeight: .infinity)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print("タップ")
                     isPresented.wrappedValue = false
                 }
             
             VStack {
                 self.view()
+                    .gesture(
+                        DragGesture(minimumDistance: 0.1, coordinateSpace: .local)
+                            .onChanged(onDragChanged)
+                            .onEnded(onDragEnded)
+                    )
             }
             .frame(maxWidth: .infinity)
             .background(Color.white)
-            .offset(y: ok ? 0 : UIScreen.main.bounds.height)
+            .offset(y: modalHeight)
         }
         .ignoresSafeArea(edges: .all)
         .onReceive(ModalNotification.modalDidPresentedSubject) { _ in
             DispatchQueue.main.async {
                 withAnimation(.easeOut(duration: 0.2)) {
-                    ok = true
+                    modalHeight = 0
                 }
             }
         }
         .onReceive(ModalNotification.modalDidDismissedSubject) { _ in
             DispatchQueue.main.async {
                 withAnimation(.easeIn(duration: 0.2)) {
-                    ok = false
+                    modalHeight = UIScreen.main.bounds.height
                 }
             }
         }
@@ -191,7 +227,7 @@ struct ItemContent: View {
                     .cornerRadius(10)
             }
         }
-        .frame(height: 350)
+        .frame(height: 300)
         .padding()
         .background(Color.white)
     }

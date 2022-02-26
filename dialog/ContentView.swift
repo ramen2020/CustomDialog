@@ -58,24 +58,130 @@ struct FirstPage: View {
 struct SecondPage: View {
     
     @State var isPresented: Bool = false
+    @State var isPresented2: Bool = false
     
     var body: some View {
-        VStack {
+        VStack(spacing: 30) {
             Button (action: {
-                isPresented = true
+                self.isPresented = true
             }) {
-                Text("open")
+                Text("Half Modal")
                     .foregroundColor(Color.white)
                     .font(.system(size: 18, weight: .semibold))
                     .frame(width: 250, height: 50)
-                    .background(Color.red)
+                    .background(Color.blue)
                     .cornerRadius(10)
             }
-        }
-        .background(Color.white)
-        .halfModalView(isPresented: $isPresented){
+            
             Button (action: {
-                isPresented = false
+                self.isPresented2 = true
+            }) {
+                Text("Dialog")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 18, weight: .semibold))
+                    .frame(width: 250, height: 50)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
+
+        }
+        .present(isPresented: $isPresented) {
+            HalfModal {
+                ItemContent()
+            }
+        }
+        .present(isPresented: $isPresented2) {
+            PopUpModal {
+                ItemContent()
+            }
+        }
+    }
+}
+
+struct PopUpModal<PopupContent: View>: View {
+    
+    @State var ok: Bool = false
+    @Environment(\.modal) var isPresented
+
+    var view: () -> PopupContent
+
+    var body: some View {
+        Group {}
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .ignoresSafeArea(edges: .all)
+            .onReceive(ModalNotification.modalDidPresentedSubject) { _ in
+                DispatchQueue.main.async {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        ok = true
+                    }
+                }
+            }
+            .onReceive(ModalNotification.modalDidDismissedSubject) { _ in
+                DispatchQueue.main.async {
+                    withAnimation(.easeIn(duration: 0.2)) {
+                        ok = false
+                    }
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                print("タップ")
+                isPresented.wrappedValue = false
+            }
+            .overlay(self.view().offset(y: ok ? 0 : UIScreen.main.bounds.height))
+    }
+}
+
+struct HalfModal<PopupContent: View>: View {
+
+    @Environment(\.modal) var isPresented
+    @State var ok: Bool = false
+    
+    var view: () -> PopupContent
+
+    var body: some View {
+        VStack {
+            HStack{Spacer()}
+                .frame(maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    print("タップ")
+                    isPresented.wrappedValue = false
+                }
+            
+            VStack {
+                self.view()
+            }
+            .frame(maxWidth: .infinity)
+            .background(Color.white)
+            .offset(y: ok ? 0 : UIScreen.main.bounds.height)
+        }
+        .ignoresSafeArea(edges: .all)
+        .onReceive(ModalNotification.modalDidPresentedSubject) { _ in
+            DispatchQueue.main.async {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    ok = true
+                }
+            }
+        }
+        .onReceive(ModalNotification.modalDidDismissedSubject) { _ in
+            DispatchQueue.main.async {
+                withAnimation(.easeIn(duration: 0.2)) {
+                    ok = false
+                }
+            }
+        }
+    }
+}
+
+struct ItemContent: View {
+
+    @Environment(\.modal) var isPresented
+
+    var body: some View {
+        VStack {
+            Button (action: {
+                self.isPresented.wrappedValue = false
             }) {
                 Text("close")
                     .foregroundColor(Color.white)
@@ -83,17 +189,100 @@ struct SecondPage: View {
                     .frame(width: 250, height: 50)
                     .background(Color.blue)
                     .cornerRadius(10)
-            }        .foregroundColor(Color.white)
-            .font(.system(size: 18, weight: .semibold))
-            .frame(height: 500)
-            .frame(maxWidth: .infinity)
-            .background(Color.white)
+            }
+        }
+        .frame(height: 350)
+        .padding()
+        .background(Color.white)
+    }
+}
+
+
+import SwiftUI
+
+extension View {
+    func present<Content: View>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View {
+        self.overlay(
+            Modal(isPresented: isPresented, content: content)
+                .frame(width: 0, height: 0)
+        )
+    }
+}
+
+private struct ModalEnvironmentKey: EnvironmentKey {
+    static var defaultValue: Binding<Bool> = .constant(false)
+}
+
+extension EnvironmentValues {
+    var modal: Binding<Bool> {
+        get {
+            return self[ModalEnvironmentKey.self]
+        }
+        set {
+            return self[ModalEnvironmentKey.self] = newValue
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+struct NotificationConst {
+    static let MODAL_PRESENTED: Notification.Name = Notification.Name("modalDidPresented")
+    static let MODAL_DISMISSED: Notification.Name = Notification.Name("modalDidDismissed")
+}
+
+struct ModalNotification {
+    static var modalDidPresentedSubject: NotificationCenter.Publisher {
+        NotificationCenter.default.publisher(for: NotificationConst.MODAL_PRESENTED)
+    }
+
+    static func notifyModalDidPresented() {
+        NotificationCenter.default
+            .post(Notification(name: NotificationConst.MODAL_PRESENTED))
+    }
+
+    static var modalDidDismissedSubject: NotificationCenter.Publisher {
+        NotificationCenter.default.publisher(for: NotificationConst.MODAL_DISMISSED)
+    }
+
+    static func notifyModalDidDismissed() {
+        NotificationCenter.default
+            .post(Notification(name: NotificationConst.MODAL_DISMISSED))
+    }
+}
+
+
+private struct Modal<Content: View>: UIViewControllerRepresentable {
+    typealias Context = UIViewControllerRepresentableContext<Modal>
+
+    @Binding var isPresented: Bool
+
+    let content: () -> Content
+
+    func makeUIViewController(context: Context) -> some UIViewController {
+        let vc = UIViewController()
+        return vc
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        if self.isPresented {
+            let content = self.content()
+                .environment(\.modal, self.$isPresented)
+
+            let host = UIHostingController(rootView: content)
+            host.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+            host.modalPresentationStyle = .overFullScreen
+
+            DispatchQueue.main.async {
+                uiViewController.modalPresentationStyle = .overCurrentContext
+                uiViewController.present(host, animated: false, completion: {
+                    ModalNotification.notifyModalDidPresented()
+                })
+            }
+        } else {
+            ModalNotification.notifyModalDidDismissed()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                uiViewController.presentedViewController?.dismiss(animated: false, completion: nil)
+            }
+        }
     }
 }

@@ -140,6 +140,7 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
     /// Modal background color
     var modalBackground: Color
     
+    /// Round the corners of the modal
     var cornerRadius: CGFloat
     
     /// Tap the outer frame to close it.

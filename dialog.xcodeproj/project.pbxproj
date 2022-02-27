@@ -15,8 +15,6 @@
 		66793ECD27C5FCEC00D12DC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66793ECB27C5FCEC00D12DC4 /* LaunchScreen.storyboard */; };
 		66793ED827C5FCEC00D12DC4 /* dialogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793ED727C5FCEC00D12DC4 /* dialogTests.swift */; };
 		66793EE327C5FCEC00D12DC4 /* dialogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EE227C5FCEC00D12DC4 /* dialogUITests.swift */; };
-		66793EF127C6009D00D12DC4 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF027C6009D00D12DC4 /* View+Extension.swift */; };
-		66793EF327C600FF00D12DC4 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */; };
 		66793EF527C6050500D12DC4 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66793EF427C6050500D12DC4 /* ModalView.swift */; };
 		66C1143D27CB2C7900A6D795 /* NaoPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C1143C27CB2C7900A6D795 /* NaoPop.swift */; };
 /* End PBXBuildFile section */
@@ -53,8 +51,6 @@
 		66793EDE27C5FCEC00D12DC4 /* dialogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dialogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66793EE227C5FCEC00D12DC4 /* dialogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dialogUITests.swift; sourceTree = "<group>"; };
 		66793EE427C5FCEC00D12DC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		66793EF027C6009D00D12DC4 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
-		66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		66793EF427C6050500D12DC4 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		66C1143C27CB2C7900A6D795 /* NaoPop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaoPop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,8 +105,6 @@
 			children = (
 				66793EC027C5FCEB00D12DC4 /* AppDelegate.swift */,
 				66793EC227C5FCEB00D12DC4 /* SceneDelegate.swift */,
-				66793EF027C6009D00D12DC4 /* View+Extension.swift */,
-				66793EF227C600FF00D12DC4 /* UIApplication+Extension.swift */,
 				66793EC427C5FCEB00D12DC4 /* ContentView.swift */,
 				66793EF427C6050500D12DC4 /* ModalView.swift */,
 				66C1143C27CB2C7900A6D795 /* NaoPop.swift */,
@@ -282,8 +276,6 @@
 				66793EC127C5FCEB00D12DC4 /* AppDelegate.swift in Sources */,
 				66C1143D27CB2C7900A6D795 /* NaoPop.swift in Sources */,
 				66793EC327C5FCEB00D12DC4 /* SceneDelegate.swift in Sources */,
-				66793EF127C6009D00D12DC4 /* View+Extension.swift in Sources */,
-				66793EF327C600FF00D12DC4 /* UIApplication+Extension.swift in Sources */,
 				66793EC527C5FCEB00D12DC4 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

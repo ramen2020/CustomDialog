@@ -28,6 +28,11 @@ struct NaoPopUpModal<NaoPopupContent: View>: View {
     
     var view: () -> NaoPopupContent
     
+    /// - Parameters:
+    ///   - tapOutsideDismiss: Tap the outer frame to close it.
+    ///   - presentedAnimation: Animation when opening modal
+    ///   - dismissAnimation: Animation when closing modal
+    ///   - onDismiss: Action when closed modal
     init (
         tapOutsideDismiss: Bool = true,
         presentedAnimation: Animation = .easeOut(duration: 0.2),
@@ -104,6 +109,14 @@ struct NaoHalfModal<NaoPopupContent: View>: View {
     
     var view: () -> NaoPopupContent
     
+    /// - Parameters:
+    ///   - modalBackground: Modal background color
+    ///   - cornerRadius: Round the corners of the modal
+    ///   - tapOutsideDismiss: Tap the outer frame to close it.
+    ///   - dragDismiss: Can be closed by dragging.
+    ///   - presentedAnimation: Animation when opening modal
+    ///   - dismissAnimation: Animation when closing modal
+    ///   - onDismiss: Action when closed modal
     init (
         modalBackground: Color = Color.white,
         cornerRadius: CGFloat = 10,

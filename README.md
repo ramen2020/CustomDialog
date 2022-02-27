@@ -1,6 +1,8 @@
 #  (Beta version) NaoPop
-Library for displaying half-modals and pop-ups (dialogs)<br>
-ハーフモーダルやポップアップ(ダイアログ)を表示するためのライブラリ
+Library for displaying half-modals and pop-ups (dialogs)
+<br>
+<br>
+
 
 |Dialog/PopUp|Half Modal|
 |--|--|
@@ -14,15 +16,6 @@ SwiftUI had the following problems.
 - If there are many screen transitions or the hierarchy is deep, flag management is difficult.
 
 I created this project to solve that problem.
-
----
-
-SwiftUIには以下の問題がありました。
-- SwiftUIには、標準のDialog / PopUp / ハーフモーダルのコンポーネントがない。
-- Dialog / PopUpを作った場合、一番外の階層でそれを出さなければ、tabbarやnavigaiton barが透過されない。
-- 画面遷移が多い・階層が深い場合、フラグ管理が大変
-
-その問題を解決するために、このプロジェクトを作成しました。
 
 ## Environment
 SwiftUI

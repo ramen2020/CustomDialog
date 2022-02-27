@@ -227,12 +227,12 @@ extension EnvironmentValues {
     }
 }
 
-struct NaoNotificationConst {
+fileprivate struct NaoNotificationConst {
     static let MODAL_PRESENTED: Notification.Name = Notification.Name("modalDidPresented")
     static let MODAL_DISMISSED: Notification.Name = Notification.Name("modalDidDismissed")
 }
 
-struct NaoModalNotification {
+fileprivate struct NaoModalNotification {
     static var modalDidPresentedSubject: NotificationCenter.Publisher {
         NotificationCenter.default.publisher(for: NaoNotificationConst.MODAL_PRESENTED)
     }

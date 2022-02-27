@@ -266,7 +266,7 @@ fileprivate struct NaoModalNotification {
 }
 
 
-private struct NaoModal<Content: View>: UIViewControllerRepresentable {
+fileprivate struct NaoModal<Content: View>: UIViewControllerRepresentable {
     typealias Context = UIViewControllerRepresentableContext<NaoModal>
 
     @Binding var isPresented: Bool
@@ -278,18 +278,15 @@ private struct NaoModal<Content: View>: UIViewControllerRepresentable {
         return vc
     }
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+    func updateUIViewController(_ vc: UIViewControllerType, context: Context) {
         if self.isPresented {
-            let content = self.content()
-                .environment(\.naoModal, self.$isPresented)
-
-            let host = UIHostingController(rootView: content)
-            host.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-            host.modalPresentationStyle = .overFullScreen
+            let content = content().environment(\.naoModal, $isPresented)
+            let presentVC = UIHostingController(rootView: content)
+            presentVC.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+            presentVC.modalPresentationStyle = .overFullScreen
 
             DispatchQueue.main.async {
-                uiViewController.modalPresentationStyle = .overCurrentContext
-                uiViewController.present(host, animated: false, completion: {
+                vc.present(presentVC, animated: false, completion: {
                     NaoModalNotification.notifyModalDidPresented()
                 })
             }
@@ -297,7 +294,7 @@ private struct NaoModal<Content: View>: UIViewControllerRepresentable {
             NaoModalNotification.notifyModalDidDismissed()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                uiViewController.presentedViewController?.dismiss(animated: false, completion: nil)
+                vc.presentedViewController?.dismiss(animated: false, completion: nil)
             }
         }
     }

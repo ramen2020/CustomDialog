@@ -30,3 +30,26 @@ struct ModalView: View {
         .background(Color.white)
     }
 }
+
+struct ItemContent: View {
+
+    @Environment(\.naoModal) var isPresented
+
+    var body: some View {
+        VStack {
+            Button (action: {
+                self.isPresented.wrappedValue = false
+            }) {
+                Text("close")
+                    .foregroundColor(Color.white)
+                    .font(.system(size: 18, weight: .semibold))
+                    .frame(width: 250, height: 50)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
+        }
+        .frame(height: 300)
+        .padding()
+        .background(Color.white)
+    }
+}
